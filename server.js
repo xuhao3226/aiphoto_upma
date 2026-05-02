@@ -11,6 +11,10 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok' });
+});
+
 async function processImage(buffer) {
     const tempDir = os.tmpdir();
     const inputPath = path.join(tempDir, `input_${Date.now()}.png`);
