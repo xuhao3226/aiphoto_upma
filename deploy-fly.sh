@@ -28,8 +28,7 @@ echo "首次部署会自动创建应用"
 
 cd "$(dirname "$0")"
 
-flyctl launch --no-generate-hooks --copy-config
-flyctl deploy
+flyctl launch --copy-config --yes
 
 # 4. 查看状态
 echo ""

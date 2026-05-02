@@ -2,8 +2,14 @@ services:
   - type: web
     name: aiphoto-backend
     env: node
-    region: oregon
     plan: free
     buildCommand: npm install
     startCommand: npm start
-    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+    healthCheckPath: /
+    autoDeploy: true
+    disk: null
+    regions:
+      - singapore
