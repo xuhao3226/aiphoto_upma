@@ -1,7 +1,4 @@
-const API_BASE = window.location.hostname === 'localhost'
-    ? 'http://localhost:5001'
-    : `https://aiphoto-backend.onrender.com`;
-
+const API_BASE_URL = window.location.origin;
 let isProcessing = false;
 let removedBgImage = null;
 
@@ -35,7 +32,7 @@ async function processBackgroundRemoval() {
     loadingOverlay.style.display = 'flex';
 
     try {
-        const response = await fetch(`${API_BASE}/remove-background`, {
+        const response = await fetch(`${API_BASE_URL}/remove-background`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

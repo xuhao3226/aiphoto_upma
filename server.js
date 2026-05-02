@@ -6,29 +6,14 @@ const fs = require('fs');
 const os = require('os');
 
 const app = express();
-const PORT = 5001;
+const PORT = process.env.PORT || 8080;
 
-const corsOptions = {
-    origin: function (origin, callback) {
-        const allowedOrigins = [
-            'http://localhost:8080',
-            'http://localhost:3000',
-            'https://aiphoto-frontend.vercel.app'
-        ];
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(null, true);
-        }
-    },
-    credentials: true
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
+app.use(express.static(__dirname));
 app.use(express.json({ limit: '50mb' }));
 
-app.get('/health', (req, res) => {
-    res.json({ status: 'ok' });
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 async function processImage(buffer) {
