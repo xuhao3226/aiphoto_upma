@@ -1,0 +1,24 @@
+{
+  "name": "aiphoto-backend",
+  "version": "1.0.0",
+  "description": "AI Image Composition Backend Service",
+  "main": "server.js",
+  "bin": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "PKG_CACHE_PATH=/Users/deman/Desktop/aiphoto/test3_upma/.pkg-cache pkg . --targets node18-macos-x64 --output dist/aiphoto-backend",
+    "start:dist": "./dist/aiphoto-backend"
+  },
+  "pkg": {
+    "targets": ["node18-macos-x64"],
+    "assets": [
+      "node_modules/@imgly/background-removal-node/**/*",
+      "node_modules/sharp/**/*"
+    ]
+  },
+  "dependencies": {
+    "@imgly/background-removal-node": "^1.4.5",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

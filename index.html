@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI图片合成</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="background-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.jpg" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 12px;">
+                </div>
+                <h1>AI 图片合成</h1>
+                <p class="subtitle">智能抠图 · 完美融合 · 一键合成</p>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div class="cards-container">
+                <div class="card" id="frameMain">
+                    <div class="card-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        <span>背景图</span>
+                    </div>
+                    <div class="card-body" onclick="document.getElementById('inputMain').click()">
+                        <div class="image-placeholder" id="placeholderMain">
+                            <div class="placeholder-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                            </div>
+                            <p class="placeholder-text">点击上传背景图</p>
+                            <p class="placeholder-hint">支持 JPG、PNG 格式</p>
+                        </div>
+                        <img id="imageMain" class="preview-image" style="display: none;">
+                    </div>
+                    <input type="file" id="inputMain" accept="image/*" class="file-input" onchange="previewImage(this, 'imageMain', 'placeholderMain')">
+                </div>
+
+                <div class="arrow-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+
+                <div class="card" id="frameSubject">
+                    <div class="card-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span>人物图</span>
+                    </div>
+                    <div class="card-body" onclick="document.getElementById('inputSubject').click()">
+                        <div class="image-placeholder" id="placeholderSubject">
+                            <div class="placeholder-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <p class="placeholder-text">点击上传人物图</p>
+                            <p class="placeholder-hint">AI 将自动去除背景</p>
+                        </div>
+                        <img id="imageSubject" class="preview-image" style="display: none;">
+                    </div>
+                    <input type="file" id="inputSubject" accept="image/*" class="file-input" onchange="previewImage(this, 'imageSubject', 'placeholderSubject')">
+                </div>
+
+                <div class="arrow-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+
+                <div class="card result-card" id="frameResult">
+                    <div class="card-label result-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>合成结果</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="image-placeholder" id="placeholderResult">
+                            <div class="placeholder-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 11H5"></path>
+                                    <path d="M12 18V6"></path>
+                                    <path d="M5 11l7-7 7 7"></path>
+                                </svg>
+                            </div>
+                            <p class="placeholder-text">合成图片</p>
+                            <p class="placeholder-hint">点击"合成图片"生成</p>
+                        </div>
+                        <img id="imageResult" class="preview-image" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions-container">
+                <button class="btn btn-secondary" id="resetBtn" onclick="resetImages()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                    重置
+                </button>
+                <button class="btn btn-primary" id="processBtn" onclick="processBackgroundRemoval()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M14 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"></path>
+                        <path d="M3 8l4-4 4 4"></path>
+                        <path d="M3 12l4 4 4-4"></path>
+                    </svg>
+                    AI 去背景
+                </button>
+                <button class="btn btn-accent" id="composeBtn" onclick="composeImages()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="18" r="3"></circle>
+                        <circle cx="6" cy="6" r="3"></circle>
+                        <path d="M6 21V9a9 9 0 0 0 9 9"></path>
+                    </svg>
+                    合成图片
+                </button>
+                <button class="btn btn-download" id="downloadBtn" onclick="downloadImage()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载
+                </button>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                <div class="loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-ring"></div>
+                </div>
+                <p class="loading-text">AI 正在处理中...</p>
+                <p class="loading-hint">请稍候</p>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>Powered by AI · rembg</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
